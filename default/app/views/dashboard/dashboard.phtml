@@ -1,0 +1,169 @@
+<?php
+if (!Auth::is_valid()) {
+    Redirect::to("index/index");
+}
+?>
+<!-- llamamos a bootstrap.min.js ubicado en public/javascript/jquery/ -->   
+
+<!-- javascript para la appi de google -->   
+<?php echo Tag::js('jquery/jquery-charts.min'); ?>
+<?php echo Tag::js('jquery/loader-charts'); ?>
+
+
+<?php
+$CDispositivo = new CDispositivo();
+foreach ($CDispositivo->find_all_by_sql("SELECT D.fl_dispositivo, D.nb_dispositivo DISPOSITIVO , CU.fl_ubicacion, CU.nb_ubicacion UBICACION , (SELECT M.no_valor FROM r_monitoreo M WHERE M.fl_dispositivo = D.fl_dispositivo AND M.fl_t_sensor = 1 ORDER BY M.fe_registro DESC LIMIT 1) TEMPERATURA , (SELECT M.no_valor FROM r_monitoreo M WHERE M.fl_dispositivo = D.fl_dispositivo AND M.fl_t_sensor = 2 ORDER BY M.fe_registro DESC LIMIT 1) HUMEDAD , (SELECT M.fe_registro FROM r_monitoreo M WHERE M.fl_dispositivo = D.fl_dispositivo AND M.fl_t_sensor = 1 ORDER BY M.fe_registro DESC LIMIT 1) FECHA from c_dispositivo D INNER JOIN c_ubicacion CU ON D.fl_ubicacion = CU.fl_ubicacion") as $dispositivo) {
+$temperatura = $dispositivo->fl_dispositivo;
+$humedad = $dispositivo->DISPOSITIVO;   
+    
+    ?>
+        <script type="text/javascript">
+
+                google.charts.load('current', {'packages': ['gauge']});
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+
+                    var data = google.visualization.arrayToDataTable([
+                        ['Label', 'Value'],
+                        ['Temperatura', 0]
+
+                    ]);
+
+                    var options = {
+                        min: 0, max: 50,
+                        width: 150, height: 150,
+                        redFrom: 30, redTo: 50,
+                        yellowFrom: 24, yellowTo: 30,
+                        greenFrom: 15, greenTo: 24,
+                        minorTicks: 5
+                    };
+
+                    var chart = new google.visualization.Gauge(document.getElementById('<?php echo $temperatura ?>'));
+
+                    chart.draw(data, options);
+
+                    setInterval(function () {
+                        var JSON = $.ajax({
+                            type: "POST",
+                            url: "http://192.168.1.96/kumbia/dispositivo/consultaTemperaturaApi",
+                            data: {'fl_dispositivo':<?php echo $dispositivo->fl_dispositivo; ?>, 'fl_ubicacion':<?php echo $dispositivo->fl_ubicacion; ?>},
+                            dataType: 'json',
+                            async: false}).responseText;
+                        
+                        var Res = jQuery.parseJSON(JSON);
+
+
+                        data.setValue(0, 1, Res[0].TEMPERATURA);
+
+
+                        chart.draw(data, options);
+                    }, 1000);
+                }
+            </script>
+        <script type="text/javascript">
+
+                google.charts.load('current', {'packages': ['gauge']});
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+
+                    var data = google.visualization.arrayToDataTable([
+                        ['Label', 'Value'],
+                        ['Humedad', 0]
+
+                    ]);
+
+                    var options = {
+                        min: 0, max: 50,
+                        width: 150, height: 150,
+                        redFrom: 30, redTo: 50,
+                        yellowFrom: 24, yellowTo: 30,
+                        greenFrom: 15, greenTo: 24,
+                        minorTicks: 5
+                    };
+
+                    var chart = new google.visualization.Gauge(document.getElementById('<?php echo $humedad ?>'));
+
+                    chart.draw(data, options);
+
+                    setInterval(function () {
+                        var JSON = $.ajax({
+                            type: "POST",
+                            url: "http://192.168.1.96/kumbia/dispositivo/consultaHumedadApi",
+                            data: {'fl_dispositivo':<?php echo $dispositivo->fl_dispositivo; ?>, 'fl_ubicacion':<?php echo $dispositivo->fl_ubicacion; ?>},
+                            dataType: 'json',
+                            async: false}).responseText;
+                        
+                        var Res = jQuery.parseJSON(JSON);
+
+
+                        data.setValue(0, 1, Res[0].HUMEDAD);
+
+
+                        chart.draw(data, options);
+                    }, 1000);
+                }
+            </script>
+<br>    
+    <div class="container-fluid">
+        <div class="card border-dark">
+            <div class="card-header bg-light">
+                <div class="d-flex flex-row bd-highlight">
+                    <div class="mr-auto p-2 bd-highlight" style="font-family: monospace; color: #000; font-size: large">Dispositivo: 
+                        <a style="font-family: monospace; color: #007bff; font-size: large"><?php echo $dispositivo->DISPOSITIVO ?></a></div>
+                    <div class="ml-auto p-2 bd-highlight" style="font-family: monospace; color: #000; font-size: large">Ubicación: 
+                        <a style="font-family: monospace; color: #007bff; font-size: large"><?php echo $dispositivo->UBICACION ?></a></div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card border">
+                        <div class="card-body">
+                            <center>
+                                <h5 class="card-title" style="font-family: monospace; color: #000; font-size: x-large">Temperatura °C</h5>
+                                <a id="<?php echo $temperatura ?>"></a>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card border">
+                        <div class="card-body">
+                            <center>
+                                <h5 class="card-title" style="font-family: monospace; color: #000; font-size: x-large">Humedad %</h5>
+                                <a id="<?php echo $humedad ?>"></a>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-light">
+                <div class="d-flex flex-row bd-highlight">
+                    <div class="mr-auto p-2 bd-highlight" style="font-family: monospace; color: #000; font-size: small">
+                        <a style="font-family: monospace; color: #007bff; font-size: small"><?php echo $dispositivo->FECHA ?></a>
+                    </div>
+                    <div class="ml-auto " style="font-family: monospace; color: #000; font-size: x-large"> 
+                        <button type="button" class="btn btn-info">Información</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br>
+
+    <?php
+}
+
+
+
+?>
+    
+
+</body>
+</html>

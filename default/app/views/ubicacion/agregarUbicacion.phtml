@@ -1,0 +1,54 @@
+<?php
+if (!Auth::is_valid()) {
+    Redirect::to("index/index");
+}
+?>
+
+
+
+
+
+<h3>Agregar ubicación</h3>
+        <br>
+        <div class="container-fluid">
+            <div class="card">
+                <h5 class="card-header">Agregar ubicación</h5>
+                <div class="card-body">
+                    <form <?= Form::open("Ubicacion/agregarUbicacion","POST");?>
+                      <input class="form-control" value="1"<?=Form::hidden("CUbicacion.fg_activo")?>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="text">Ubicación</label>
+                                <input  class="form-control" <?=Form::text("CUbicacion.nb_ubicacion")?>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="text" >No. Oficina</label>
+                                <input  class="form-control" <?=Form::text("CUbicacion.no_oficina")?>
+                            </div>
+                        </div>
+                    <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="text">Crit</label>
+
+                                <select  class="form-control" <?= Form::dbSelect("CUbicacion.fl_crit", "nb_crit", array('c_crit', 'find'),"selecciona una Crit") ?>
+
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label for="text" >Descripción</label>
+                                <input class="form-control" <?=Form::text("CUbicacion.ds_ubicacion")?>
+                            </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                     <button class="btn btn-primary"<?=Form::submit("guardar")?></button>
+                    </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+
+            	<?= Form::close();?>

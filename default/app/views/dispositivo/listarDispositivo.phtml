@@ -1,0 +1,75 @@
+<?php
+if (!Auth::is_valid()) {
+    Redirect::to("index/index");
+}
+?>
+
+<?php echo Tag::js('jquery/jquery.min'); ?>
+
+
+
+
+    <h3>Administrar ubicacion</h3>
+        <br>
+        <div class="container">
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <div>
+                            <div>Seleccione Ubicacion: </div>
+                            <select  class="form-control" <?= Form::dbSelect("CUbicacion.fl_ubicacion", "nb_ubicacion", array('CUbicacion', 'all'),"selecciona un ubicacion") ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <div>
+                            <div>Seleccione dispositivo: </div>
+                            <div id="div_dispositivo">
+                                <select  class="form-control" name="cbx_dispositivo" id="div_dispositivo">
+                            </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2" style="align-items: flex-end">
+                    <br>
+                    <div class="d-flex justify-content-end">
+                        <label></label>
+                        <a class="btn btn-primary" href="/kumbia/dispositivo/agregarDispositivo" >Agregar dispositivo</a>
+                    </div>
+
+                    </div>
+                </div>
+        </div>
+                <script type='text/javascript'>
+			$(document).on('change', "#CUbicacion_fl_ubicacion", function(){
+                                var fl_ubicacion = $('#CUbicacion_fl_ubicacion').val();
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo PUBLIC_PATH . 'dispositivo/obtenerDispositivo'; ?>",
+                                    data: "fl_ubicacion=" + fl_ubicacion,
+                                    success: function (html){
+                                        $("#div_dispositivo").html(html);
+                                    }
+                                });
+			});
+
+                        $(document).on('change', "#CDispositivo_fl_dispositivo", function(){
+                                var fl_dispositivo = $('#CDispositivo_fl_dispositivo').val();
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo PUBLIC_PATH . 'dispositivo/obtenerTablaDispositivo'; ?>",
+                                    data: "fl_dispositivo=" + fl_dispositivo,
+                                    success: function (html){
+                                        $("#div_tabla_dispositivo").html(html);
+                                    }
+                                });
+			});
+
+
+		</script>
+        <div class="container">
+            <table class="table table" id="div_tabla_dispositivo">
+
+            </table>
+        </div>
+        <br>

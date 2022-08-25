@@ -1,0 +1,20 @@
+<?php
+
+$fl_dispositivo= Input::post('fl_dispositivo');
+$fl_ubicacion= Input::post('fl_ubicacion');
+//$fl_dispositivo = 1;
+//$fl_ubicacion = 1;
+$CDispositivo = new CDispositivo();
+foreach ($CDispositivo->find_all_by_sql("SELECT D.nb_dispositivo NOMBRE , CU.nb_ubicacion UBICACION , (SELECT M.no_valor FROM r_monitoreo M WHERE M.fl_dispositivo = D.fl_dispositivo AND M.fl_t_sensor = 1 ORDER BY M.fe_registro DESC LIMIT 1) TEMPERATURA , (SELECT M.fe_registro FROM r_monitoreo M WHERE M.fl_dispositivo = D.fl_dispositivo AND M.fl_t_sensor = 1 ORDER BY M.fe_registro DESC LIMIT 1) FECHA from c_dispositivo D INNER JOIN c_ubicacion CU ON D.fl_ubicacion = CU.fl_ubicacion WHERE CU.fl_ubicacion = '$fl_ubicacion' AND D.fl_dispositivo = '$fl_dispositivo'
+") as $dispositivo) {
+    
+    
+     $array[] = $dispositivo;
+    
+    
+}
+echo json_encode($array);
+     
+
+       
+        ?>

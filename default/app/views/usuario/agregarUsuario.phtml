@@ -1,0 +1,66 @@
+<?php
+if (!Auth::is_valid()) {
+    Redirect::to("index/index");
+}
+?>
+
+
+
+
+<h3>Agregar usuario</h3>
+        <br>
+<div class="container-fluid">
+          <div class="card">
+              <h5 class="card-header">Agregar usuario</h5>
+              <div class="card-body">
+                  <form <?= Form::open("usuario/agregarUsuario/","POST");?>
+                      <input class="form-control" value="1"<?=Form::hidden("CUsuario.fg_activo")?>
+                      <input class="form-control" value="1"<?=Form::hidden("CUsuario.nb_contrasenia")?>
+
+
+                      <div class="form-row">
+                          <div class="form-group col-md-6">
+                              <label for="text">Nombre</label>
+                              <input class="form-control"<?=Form::text("CUsuario.nb_usuario")?>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label for="text" >Apellido paterno</label>
+                              <input  class="form-control" <?=Form::text("CUsuario.nb_apaterno")?>
+                          </div>
+                      </div>
+                      <div class="form-row">
+                          <div class="form-group col-md-6">
+                              <label for="text">Apellido materno</label>
+                              <input class="form-control" <?=Form::text("CUsuario.nb_amaterno")?>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label for="text" >Puesto</label>
+                              <input class="form-control"<?=Form::text("CUsuario.nb_puesto")?>
+                          </div>
+                      </div>
+                      <div class="form-row">
+                          <div class="form-group col-md-4">
+                              <label for="text">Mail</label>
+                              <input class="form-control" <?=Form::Email("CUsuario.nb_login")?>
+                          </div>
+                          <div class="form-group col-md-5">
+                              <label for="text">Area</label>
+                              <select class="form-control"<?=Form::dbSelect("CUsuario.fl_area", "nb_area", array('c_area', 'find'),"selecciona una Area")?>
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label for="text">Rol</label>
+                              <select  class="form-control"<?= Form::dbSelect("CUsuario.fl_rol", "nb_rol", array('c_rol', 'find'),"selecciona una Rol")?>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label for="text">Descripción de usuario</label>
+                          <textarea class="form-control"   <?=Form::text("CUsuario.ds_usuario")?></textarea>
+                      </div>
+                      <div class="d-flex justify-content-end">
+                      <button  class="btn btn-primary"<?=Form::submit("guardar")?>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+	<?= Form::close();?>

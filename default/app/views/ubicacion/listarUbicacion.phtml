@@ -1,0 +1,59 @@
+<?php
+if (!Auth::is_valid()) {
+    Redirect::to("index/index");
+}
+?>
+
+<?php echo Tag::js('jquery/jquery.min'); ?>
+
+
+
+
+
+    <h3>Administrar ubicacion</h3>
+        <br>
+        <div class="container">
+                <div class="form-row">
+
+                    <div class="form-group col-md-5">
+                      <div>
+                          <div>Seleccione ubicacion: </div>
+                          <select  class="form-control" <?= Form::dbSelect("CUbicacion.fl_ubicacion", "nb_ubicacion", array('CUbicacion', 'all'),"selecciona  ubicacion") ?>
+                          </select>
+                      </div>
+
+                    </div>
+                    <div class="form-group col-md-2" style="align-items: flex-end">
+                    <br>
+                    <div class="d-flex justify-content-end">
+                        <label></label>
+                        <a class="btn btn-primary" href="/kumbia/ubicacion/agregarubicacion" >Agregar ubicacion</a>
+                    </div>
+
+                    </div>
+                </div>
+        </div>
+                <script type='text/javascript'>
+
+
+                        $(document).on('change', "#CUbicacion_fl_ubicacion", function(){
+                        
+                                var fl_ubicacion = $('#CUbicacion_fl_ubicacion').val();
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo PUBLIC_PATH . 'ubicacion/obtenerTablaUbicacion'; ?>",
+                                    data: "fl_ubicacion=" + fl_ubicacion,
+                                    success: function (html){
+                                        $("#div_tabla_ubicacion").html(html);
+                                    }
+                                });
+			});
+
+
+		</script>
+        <div class="container">
+            <table class="table table" id="div_tabla_ubicacion">
+
+            </table>
+        </div>
+        <br>

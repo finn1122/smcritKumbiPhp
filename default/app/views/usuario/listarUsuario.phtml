@@ -1,0 +1,75 @@
+<?php
+if (!Auth::is_valid()) {
+    Redirect::to("index/index");
+}
+?>
+
+<?php echo Tag::js('jquery/jquery.min'); ?>
+
+
+
+
+    <h3>Administrar usuarios</h3>
+        <br>
+        <div class="container">
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <div>
+                            <div>Seleccione rol: </div>
+                            <select  class="form-control" <?= Form::dbSelect("CRol.fl_rol", "nb_rol", array('CRol', 'all'),"selecciona un rol") ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <div>
+                            <div>Seleccione usuario: </div>
+                            <div id="div_usuario">
+                                <select  class="form-control" name="cbx_usuario" id="div_usuario">
+                            </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2" style="align-items: flex-end">
+                    <br>
+                    <div class="d-flex justify-content-end">
+                        <label></label>
+                        <a class="btn btn-primary" href="/kumbia/usuario/agregarUsuario" >Agregar usuario</a>
+                    </div>
+
+                    </div>
+                </div>
+        </div>
+                <script type='text/javascript'>
+			$(document).on('change', "#CRol_fl_rol", function(){
+                                var fl_rol = $('#CRol_fl_rol').val();
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo PUBLIC_PATH . 'usuario/obtenerUsuario'; ?>",
+                                    data: "fl_rol=" + fl_rol,
+                                    success: function (html){
+                                        $("#div_usuario").html(html);
+                                     }
+                                });
+			});
+
+                        $(document).on('change', "#CUsuario_fl_usuario", function(){
+                                var fl_usuario = $('#CUsuario_fl_usuario').val();
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo PUBLIC_PATH . 'usuario/obtenerTablaUsuario'; ?>",
+                                    data: "fl_usuario=" + fl_usuario,
+                                    success: function (html){
+                                        $("#div_tabla_usuario").html(html);
+                                    }
+                                });
+			});
+
+
+		</script>
+        <div class="container">
+            <table class="table table" id="div_tabla_usuario">
+
+            </table>
+        </div>
+        <br>

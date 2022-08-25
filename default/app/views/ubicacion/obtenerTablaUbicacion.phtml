@@ -1,0 +1,74 @@
+
+
+<?php
+//$fl_usuario = $_POST['fl_usuario'];
+//$datosUsuario = new CUsuario();
+//$datos = $datosUsuario->find("conditions: fl_usuario = '$fl_usuario'");
+
+foreach ($datos as $row) {
+    if ($row->fg_activo == 1) {
+        $bandera = 'activo';
+    } elseif ($row->fg_activo == 0) {
+        $bandera = 'inactivo';
+    }
+    ?>
+    <table class='table table-sm'>
+        <thead>
+            <tr>
+                <th scope="row">ubicacion</th>
+                <th scope="row"><?php echo $row->nb_ubicacion?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Crit</th>
+                <td><?php echo $row->nb_crit ?></td>
+            </tr>
+            <tr>
+                <th scope="row">Oficina</th>
+                <td><?php echo $row->no_oficina ?></td>
+            </tr>
+            <tr>
+                <th scope="row">Descripcion</th>
+                <td><?php echo $row->ds_ubicacion ?></td>
+            </tr>
+
+
+            <tr>
+                <th scope="row">Fecha de creación</th>
+                <td><?php echo $row->fe_creacion ?></td>
+            </tr>
+            <tr>
+                <th scope="row">Ultima modificación</th>
+                <td><?php echo $row->fe_ultimod ?></td>
+            </tr>
+            <tr>
+                <th scope="row">Bandera</th>
+                <td><?php echo $bandera ?></td>
+            </tr>
+
+            <tr>
+                <th colspan='2' >Acción</th>
+            </tr>
+            <tr>
+              <th><a class="" href="/kumbia/ubicacion/modificarUbicacion/<?php echo $row->fl_ubicacion ?>">Editar</a></th>
+              <th><a class="" href="/kumbia/ubicacion/eliminarUbicacion/<?php echo $row->fl_ubicacion ?>">Eliminar</a></th>
+
+
+            </tr>
+        </tbody>
+
+    </table>
+    <?php
+}
+?>
+
+
+
+
+</th>
+</td>
+
+
+
+</table>

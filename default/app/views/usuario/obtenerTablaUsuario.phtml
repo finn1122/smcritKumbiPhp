@@ -1,0 +1,79 @@
+
+
+<?php
+//$fl_usuario = $_POST['fl_usuario'];
+//$datosUsuario = new CUsuario();
+//$datos = $datosUsuario->find("conditions: fl_usuario = '$fl_usuario'");
+
+foreach ($datos as $row) {
+    if ($row->fg_activo == 1) {
+        $bandera = 'activo';
+    } elseif ($row->fg_activo == 0) {
+        $bandera = 'inactivo';
+    }
+    ?>
+    <table class='table table-sm'>
+        <thead>
+            <tr>
+                <th scope="row">Usuario</th>
+                <th scope="row"><?php echo $row->nb_usuario . ' ' . $row->nb_apaterno . ' ' . $row->nb_amaterno ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Puesto</th>
+                <td><?php echo $row->nb_puesto ?></td>
+            </tr>
+            <tr>
+                <th scope="row">Mail</th>
+                <td><?php echo $row->nb_login ?></td>
+            </tr>
+            <tr>
+                <th scope="row">Area</th>
+                <td><?php echo $row->nb_area ?></td>
+            </tr>
+            <tr>
+                <th scope="row">Rol</th>
+                <td><?php echo $row->nb_rol ?></td>
+            </tr>
+            <tr>
+                <th scope="row">Bandera</th>
+                <td><?php echo $bandera ?></td>
+            </tr>
+            <tr>
+                <th scope="row">Descripcion</th>
+                <td><?php echo $row->ds_usuario ?></td>
+            </tr>
+            <tr>
+                <th scope="row">Fecha de creación</th>
+                <td><?php echo $row->fe_creacion ?></td>
+            </tr>
+            <tr>
+                <th scope="row">Ultima modificación</th>
+                <td><?php echo $row->fe_ultimod ?></td>
+            </tr>
+            <tr>
+                <th colspan='2' >Acción</th>
+            </tr>
+            <tr>
+              <th><a class="" href="/kumbia/usuario/modificarUsuario/<?php echo $row->fl_usuario ?>">Editar</a></th>
+              <th><a class="" href="/kumbia/usuario/eliminarUsuario/<?php echo $row->fl_usuario ?>">Eliminar</a></th>
+
+
+            </tr>
+        </tbody>
+
+    </table>
+    <?php
+}
+?>
+
+
+
+
+</th>
+</td>
+
+
+
+</table>

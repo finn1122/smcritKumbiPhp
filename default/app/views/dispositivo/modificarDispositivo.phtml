@@ -1,0 +1,58 @@
+<?php
+if (!Auth::is_valid()) {
+    Redirect::to("index/index");
+}
+?>
+
+
+
+
+
+<h3>Actualizar dispositivo</h3>
+<br>
+<div class="container">
+    <div class="card">
+        <h5 class="card-header">Actualizando : </h5>
+        <div class="card-body">
+            <form <?= Form::open("dispositivo/modificarDispositivo/" . $fl_dispositivo, "POST"); ?>
+
+
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <?= Form::hidden("CDispositivo.fl_dispositivo") ?>
+                        <label for="text">Nombre</label>
+                        <input class="form-control"<?= Form::text("CDispositivo.nb_dispositivo") ?>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="text" >Modelo</label>
+                        <input  class="form-control" <?= Form::text("CDispositivo.nb_modelo") ?>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="text">Ubicacion</label>
+                        <select  class="form-control" <?= Form::dbSelect("CDispositivo.fl_ubicacion", "nb_ubicacion", array('c_ubicacion', 'find'), "seleccionar Ubicacion") ?>
+
+
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="text">Bandera</label>
+                <select class="form-control" <?= Form::Select("CUsuario.fg_activo", array('desactivar', 'activar')); ?>
+              </select>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label for="text">Descripción de usuario</label>
+                <textarea class="form-control"<?= Form::textarea("CDispositivo.ds_dispositivo") ?></textarea>
+            </div>
+            <button class="btn btn-primary" <?= Form::submit("Guardar") ?></button>
+        </form>
+    </div>
+</div>
+</div>
+
+<?= Form::close(); ?>

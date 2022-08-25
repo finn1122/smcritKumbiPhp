@@ -1,0 +1,57 @@
+<?php
+if (!Auth::is_valid()) {
+    Redirect::to("index/index");
+}
+?>
+
+
+
+
+<h3>Agregar dispositivo</h3>
+<br>
+<div class="container-fluid">
+    <div class="card">
+        <h5 class="card-header">Agregar Dispositivo</h5>
+        <div class="card-body">
+            <form <?= Form::open("dispositivo/agregarDispositivo","POST");?>
+                  <input class="form-control" value="1"<?=Form::hidden("CDispositivo.fg_activo")?>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="text">Dispositivo</label>
+                        <input class="form-control" <?=Form::text("CDispositivo.nb_dispositivo")?>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="text" >Modelo</label>
+                        <input  class="form-control" <?=Form::text("CDispositivo.nb_modelo")?>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="text">Ubicación</label>
+
+                        <select class="form-control"<?= Form::dbSelect("CDispositivo.fl_ubicacion", "nb_ubicacion", array('c_ubicacion', 'find'),"selecciona una Ubicacion") ?>
+
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="text">Descripción de dispositivo</label>
+                    <textarea class="form-control" <?=Form::text("CDispositivo.ds_dispositivo")?></textarea>
+                </div>
+                <a href="agregarUbicacion.php">Agregar ubicación</a>
+                <div class="d-flex justify-content-end">
+                <button  class="btn btn-primary" <?=Form::submit("guardar")?></button>
+                </div>
+
+
+
+            </form>
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+        	<?= Form::close();?>

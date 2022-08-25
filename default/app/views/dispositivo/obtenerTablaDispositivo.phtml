@@ -1,0 +1,55 @@
+
+
+<?php
+
+foreach ($datos as $row) {
+    if ($row->fg_activo == 1) {
+        $bandera = 'activo';
+    } elseif ($row->fg_activo == 0) {
+        $bandera = 'inactivo';
+    }
+    ?>
+    <table class='table table-sm'>
+        <thead>
+            <tr>
+                <th scope="row">Dispositivo</th>
+                <th scope="row"><?php echo $row->nb_dispositivo ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Modelo</th>
+                <td><?php echo $row->nb_modelo ?></td>
+            </tr>
+
+          <tr>
+                <th scope="row">Fecha de creación</th>
+                <td><?php echo $row->fe_creacion ?></td>
+            </tr>
+            <tr>
+                <th scope="row">Ultima modificación</th>
+                <td><?php echo $row->fe_ultimod ?></td>
+            </tr>
+            <tr>
+                <th scope="row">Descripcion</th>
+                <td><?php echo $row->ds_dispositivo ?></td>
+            </tr>
+            <tr>
+                <th scope="row">Bandera</th>
+                <td><?php echo $bandera ?></td>
+            </tr>
+            <tr>
+                <th colspan='2' >Acción</th>
+            </tr>
+            <tr>
+              <th><a class="" href="/kumbia/dispositivo/modificarDispositivo/<?php echo $row->fl_dispositivo ?>">Editar</a></th>
+              <th><a class="" href="/kumbia/dispositivo/eliminarDispositivo/<?php echo $row->fl_dispositivo ?>">Eliminar</a></th>
+
+
+            </tr>
+        </tbody>
+
+    </table>
+    <?php
+}
+?>

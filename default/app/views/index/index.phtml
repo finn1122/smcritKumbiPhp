@@ -1,0 +1,37 @@
+<?php
+if (Auth::is_valid()) {
+    Redirect::to("dashboard/dashboard");
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+   <title>login</title>
+   <?php Tag::css('bootstrap.min') ?>
+   <?php Tag::css('signin') ?>
+   <?= Html::includeCss() ?>
+</head>
+<body>
+    
+    <form class="form-signin" method="post" action="/kumbia/index/index">
+            <img class="mb-4" src="https://www.onlinevolunteering.org/sites/default/files/organization/logo_teleton.jpg" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
+            <label for="nb_login" class="sr-only"></label>
+            <input type="email" name="nb_login"  class="form-control" required placeholder="Usuario..." required autofocus>
+            <label for="nb_contrasenia" class="sr-only"></label>
+            <input type="password" name="nb_contrasenia" class="form-control" required placeholder="Contraseña..." required>
+            <?php
+                if (isset($_GET["fallo"]) && $_GET["fallo"] == 'true') {
+                    echo "<div style='color:red'>Usuario o contraseña invalido </div>";
+                }elseif (isset ($_GET["inactivo"]) && $_GET["inactivo"]== 'true') {
+                    echo "<label style='color:red'>Usuario inactivo, contacta al administrador</label>";
+                    
+                }
+                ?>
+            
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+    </form>
+
+</body>
+</html>

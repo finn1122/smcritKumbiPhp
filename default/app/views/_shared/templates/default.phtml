@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+ <head>
+  <meta charset=<?= APP_CHARSET ?> >
+  <title>KumbiaPHP Framework</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <?php// Tag::css('kumbia') ?>
+  <?php Tag::css('bootstrap.min') ?>   
+  <?php View::partial('kumbia/header') ?>
+  <?php View::partial('kumbia/nav') ?>
+  <?= Html::includeCss() ?>
+
+</head>
+<body>
+
+  <?php  View::content() ?>
+
+</body>
+
+
+
+</html>
